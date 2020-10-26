@@ -1,5 +1,6 @@
 
 require 'yaml'
+require "stringex"
 
 module JekyllPageBoilerplate
   class Page
@@ -75,13 +76,13 @@ module JekyllPageBoilerplate
 
     def abort_if_file_exists(file_path)
       if File.exist?(file_path)
-        abort("#{file_path} already exists!")
+        raise "#{file_path} already exists!"
       end
     end
 
     def abort_unless_file_exists(file_path)
       unless File.exist?(file_path)
-        abort("#{file_path} does not exist!")
+        raise "#{file_path} does not exist!"
       end
     end
 

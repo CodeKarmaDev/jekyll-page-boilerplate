@@ -11,7 +11,12 @@ module JekyllPageBoilerplate
 
   def self.page boilerplate_name, page_title, cmd
     page = Page.new(boilerplate_name)
-    page.create(page_title)
+    begin
+      page.create(page_title)
+    rescue => e
+      cmd.logger.fatal e.message
+    end
+
   end
 
 end

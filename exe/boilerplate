@@ -25,13 +25,13 @@ Mercenary.program(:boilerplate) do |p|
     c.syntax "help"
     c.description "Describe what jekyll-page-boilerplate does."
 
-    c.action do |c|
+    c.action do
       JekyllPageBoilerplate.help c
     end
   end
 
 
-  p.default_command(:page)
+  p.default_command(:help)
 end
 
 

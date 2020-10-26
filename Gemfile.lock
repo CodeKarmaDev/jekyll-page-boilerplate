@@ -3,6 +3,7 @@ PATH
   specs:
     jekyll-page-boilerplate (0.2.0)
       mercenary (= 0.4.0)
+      stringex
 
 GEM
   remote: https://rubygems.org/
@@ -23,6 +24,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
+    stringex (2.8.5)
 
 PLATFORMS
   ruby
