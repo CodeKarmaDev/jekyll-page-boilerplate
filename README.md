@@ -4,22 +4,27 @@ A jekyll plugin that allows you to create new pages or posts from a boilerplate.
 
 ## Installation
 
-Add this line to your application's Gemfile:
 
 ```ruby
 gem 'jekyll-page-boilerplate'
 ```
 
-And then execute `$ bundle install`
+```
+$ bundle install
+```
 
-Or `$ gem install jekyll-page-boilerplate`
+Or 
+```
+$ gem install jekyll-page-boilerplate
+```
 
-Run `$ boilerplate init` to create an example file.
 
 ## Usage
 
 
 Create a new jekyll page/post from a boilerplate.
+
+Run `$ boilerplate init` to create an example file.
 
 Create a new boilerplate file under the `_boilerplates` folder.
 
@@ -35,12 +40,21 @@ timestamp: true
 header:
   layout: post
   author: John D
+
+# the markdown content to put in the new post
+content: '
+
+# Default Heading'
+
 ```
 
-Run `$ boilerplate page post 'Another one about pottery'`
+Run `$ boilerplate page BOILERPLATE_NAME 'MY POST TITLE'`
+
+ie `$ boilerplate page post 'Another one about pottery'`
+
 
 This will create a new file under `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`
-```yml
+```
 ---
 title: Another one about pottery
 created: 'yyyy-mm-dd hh:mm:ss -0000'
@@ -48,14 +62,19 @@ layout: post
 author: John Doe
 ---
 
+# Default Heading
 ```
 
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+To install your development version of the gem, 
+clone the repo and add this to your `Gemfile`.
+```
+gem 'jekyll-page-boilerplate', :path => "path/to/repo/jekyll-page-boilerplate"
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Use `$ rake spec` to run the tests.
 
 
 ## License

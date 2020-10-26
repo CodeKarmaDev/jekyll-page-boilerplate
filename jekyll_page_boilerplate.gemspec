@@ -3,11 +3,11 @@ require_relative 'lib/jekyll_page_boilerplate/version'
 Gem::Specification.new do |spec|
   spec.name          = "jekyll-page-boilerplate"
   spec.version       = JekyllPageBoilerplate::VERSION
-  spec.authors       = ["opsaaaaa"]
-  spec.email         = ["sean@ferney.org"]
+  spec.authors       = ["Sean Ferney"]
+  spec.email         = ["sean@codekarma.dev"]
 
-  spec.summary       = "A jekyll plugin that allows you to create new pages from a boilerplate"
-  spec.description   = "A jekyll plugin that allows you to create new pages from a boilerplate"
+  spec.summary       = "A jekyll plugin that create new pages from boilerplates"
+  spec.description   = "A jekyll plugin that allows you to create new pages or posts from a boilerplate through the terminal."
   spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
 
