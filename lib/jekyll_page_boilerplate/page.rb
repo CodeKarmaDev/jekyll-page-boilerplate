@@ -38,6 +38,9 @@ module JekyllPageBoilerplate
       open(new_file_path, 'w') do |page|
         page.puts @boilerplate['header'].to_yaml
         page.puts '---'
+        page.puts ''
+        page.puts @boilerplate['content']
+        page.puts ''
       end
       
     end

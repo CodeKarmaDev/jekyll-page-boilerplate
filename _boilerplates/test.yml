@@ -1,13 +1,18 @@
 ---
 
-# generate new pages/posts under at this path
 path: test
 
-# include the current date in the filename
 timestamp: false
 
-
-# Any yaml under the header will be copied to new posts/pages
 header:
   layout: post
   author: John Doe
+
+content: "
+
+Default Test Heading
+--------------------
+
+some boilerplate text
+
+"

@@ -17,6 +17,15 @@ header:
   layout: post
   author: John Doe
 
+# the boilerplate markdown content for your page
+content: "
+
+Heading
+-------
+
+Some stuff that changes a little bit but that I don't want to bother copying and pasting.
+
+"
 
 # This would create a new file: 
 #   _posts/yyyy-mm-dd-another-one-about-pottery.markdow`
@@ -26,4 +35,10 @@ header:
 #   layout: post
 #   author: John Doe
 #   ---
+#   
+#   Heading
+#   -------
+#
+#   Some stuff that changes a little bit but that I don't want to bother copying and pasting.
+# 
 # 

@@ -22,6 +22,16 @@ RSpec.describe JekyllPageBoilerplate do
       output = %x|exe/boilerplate page test 'title'|
       expect(output).to match /Fatal/
     end
+
+    it 'can create content' do
+      %x|exe/boilerplate page test 'title'|
+      file_content = ''
+      open('test/title.markdown', 'r') do |file|
+        file_content = file.read()
+      end
+      expect(file_content).to match 'some boilerplate text'
+      expect(file_content).to match 'Default Test Heading'
+    end
   end
 
   context 'init command' do
