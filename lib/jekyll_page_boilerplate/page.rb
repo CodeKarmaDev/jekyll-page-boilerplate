@@ -7,15 +7,12 @@ module JekyllPageBoilerplate
     BOILERPLATES_PATH = '_boilerplates'
     FILE_DATE_FORMATE = '%Y-%m-%d'
 
-    def self.build boilerplate, title
-      self.new(boilerplate).create title
-    end
 
     def initialize boilerplate, suffix: '.yml' 
       plate_path = File.join(BOILERPLATES_PATH, "#{boilerplate}#{suffix}")
       
       set_boilerplate_from_yaml_file( plate_path )
-    end
+    end    
     
     def create title
       abort_unless_file_exists(@boilerplate['path'])

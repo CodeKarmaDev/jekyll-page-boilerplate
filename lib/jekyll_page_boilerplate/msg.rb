@@ -1,15 +1,6 @@
 
 module JekyllPageBoilerplate
   module Msg
-    USAGE = <<-'USAGE'
-      Creates a page from a boilerplate.
-
-      Usage:
-        `jekyll-page BOILERPLATE_FILE_NAME "MY PAGE TITLE"`
-        
-        `jekyll-page help`
-
-    USAGE
 
     HELP = <<-'HELP'
       Usage:

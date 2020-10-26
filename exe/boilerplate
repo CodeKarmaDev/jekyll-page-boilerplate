@@ -1,6 +1,4 @@
-
 #!/usr/bin/env ruby
-
 
 STDOUT.sync = true
 
@@ -9,54 +7,31 @@ $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require 'jekyll_page_boilerplate'
 require "mercenary"
 
-Mercenary.program('jekyllpage') do |p|
-  p.version Jekyll::VERSION
-  p.description 'Jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
+Mercenary.program(:boilerplate) do |p|
+  p.version JekyllPageBoilerplate::VERSION
+  p.description 'jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
   p.syntax "jekyll-page <subcommand> [options]"
 
-  p.command(:new) do |c|
-    c.syntax "new PATH" # do not include the program name or super commands
-    c.description "Creates a new Jekyll site scaffold in PATH"
-    c.option 'blank', '--blank', 'Initialize the new site without any content.'
+  p.command(:page) do |c|
+    c.syntax "create BOILERPLATE_NAME \"NEW PAGE TITLE\""
+    c.description "Creates a page or post from a boilerplate."
 
-    c.action do |args, options|
-      Jekyll::Commands::New.process(args, blank: options['blank'])
+    c.action do |args, _|
+      JekyllPageBoilerplate.page args[0], args[1], c
     end
   end
 
-  p.command(:build) do |c|
-    c.syntax "build [options]"
-    c.description "Builds your Jekyll site"
+  p.command(:help) do |c|
+    c.syntax "help"
+    c.description "Describe what jekyll-page-boilerplate does."
 
-    c.option 'safe', '--safe', 'Run in safe mode'
-    c.option 'source', '--source DIR', 'From where to collect the source files'
-    c.option 'destination', '--dest DIR', 'To where the compiled files should be written'
-
-    c.action do |_, options|
-      Jekyll::Commands::Build.process(options)
+    c.action do |c|
+      JekyllPageBoilerplate.help c
     end
   end
 
-  # Bring in command bundled in external gem
-  begin
-    require "jekyll-import"
-    JekyllImport.init_with_program(p)
-  rescue LoadError
-  end
 
-  p.default_command(:build)
+  p.default_command(:page)
 end
 
-boilerplate_name = ARGV[0]
-title = ARGV[1]
 
-if ARGV[0] == 'help'
-  puts JekyllPageBoilerplate::Msg::HELP
-
-elsif ARGV.size == 2
-  JekyllPageBoilerplate::Page.build boilerplate_name, title  
-
-else
-  puts JekyllPageBoilerplate::Msg::USAGE
-
-end
