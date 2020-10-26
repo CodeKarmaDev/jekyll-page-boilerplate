@@ -2,6 +2,8 @@
 
 A jekyll plugin that allows you to create new pages or posts from a boilerplate.
 
+[jekyll-compose](https://github.com/jekyll/jekyll-compose) might be the gem you are looking for.
+
 ## Installation
 
 
