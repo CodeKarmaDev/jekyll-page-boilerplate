@@ -18,14 +18,13 @@ header:
   author: John Doe
 
 # the boilerplate markdown content for your page
-content: "
+content: '
 
-Heading
--------
+# Heading
 
-Some stuff that changes a little bit but that I don't want to bother copying and pasting.
 
-"
+Some stuff that changes a little bit but that I don't want to bother copying and pasting.'
+
 
 # This would create a new file: 
 #   _posts/yyyy-mm-dd-another-one-about-pottery.markdow`

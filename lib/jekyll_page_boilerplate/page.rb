@@ -39,7 +39,7 @@ module JekyllPageBoilerplate
         page.puts @boilerplate['header'].to_yaml
         page.puts '---'
         page.puts ''
-        page.puts @boilerplate['content']
+        page.print @boilerplate['content']
         page.puts ''
       end
       
