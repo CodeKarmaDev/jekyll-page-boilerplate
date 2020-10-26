@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A jekyll plugin that allows you to create new pages from a boilerplate"
   spec.description   = "A jekyll plugin that allows you to create new pages from a boilerplate"
-  spec.homepage      = "https://github.com/CodeKarmaDev/jekyll_page_boilerplate"
+  spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
 
 
