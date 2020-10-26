@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").select { |f| f.match(%r{^(lib|exe|LICENSE|README|Rakefile)/}) }
   end
   spec.bindir        = "exe"
-  spec.executables   = all_files.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency("mercenary", "0.4.0")
