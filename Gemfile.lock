@@ -1,12 +1,14 @@
 PATH
   remote: .
   specs:
-    jekyll-page-boilerplate (0.1.8)
+    jekyll-page-boilerplate (0.2.0)
+      mercenary (= 0.4.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.4.4)
+    mercenary (0.4.0)
     rake (12.3.2)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
