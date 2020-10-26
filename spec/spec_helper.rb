@@ -13,6 +13,10 @@ RSpec.configure do |config|
   config.after(:all) do 
     FileUtils.rm Dir.glob('test/*')
   end
+  
+  config.after(:suite) do 
+    FileUtils.rm Dir.glob('_boilerplates/example.yml')
+  end
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
