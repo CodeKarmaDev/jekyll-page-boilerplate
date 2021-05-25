@@ -11,10 +11,10 @@ require "mercenary"
 Mercenary.program(:boilerplate) do |p|
   p.version JekyllPageBoilerplate::VERSION
   p.description 'jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
-  p.syntax "jekyll-page <subcommand> [options]"
+  p.syntax "boilerplate <subcommand> [options]"
 
   p.command(:page) do |c|
-    c.syntax "create BOILERPLATE_NAME \"NEW PAGE TITLE\""
+    c.syntax "page BOILERPLATE_NAME \"NEW PAGE TITLE\""
     c.description "Creates a page or post from a boilerplate."
 
     c.action do |args, _|

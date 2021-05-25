@@ -9,13 +9,18 @@ RSpec.configure do |config|
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
-  
+ 
+  config.before(:suite) do
+    FileUtils.mkdir 'test'
+  end
+
   config.after(:all) do 
     FileUtils.rm Dir.glob('test/*')
   end
   
   config.after(:suite) do 
     FileUtils.rm Dir.glob('_boilerplates/example.yml')
+    FileUtils.rm_r 'test'
   end
 
   config.expect_with :rspec do |c|

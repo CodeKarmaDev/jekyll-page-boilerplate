@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Sean Ferney"]
   spec.email         = ["sean@codekarma.dev"]
 
-  spec.summary       = "A jekyll plugin that create new pages from boilerplates"
+  spec.summary       = "A jekyll plugin that creates new pages from boilerplates"
   spec.description   = "A jekyll plugin that allows you to create new pages or posts from a boilerplate through the terminal."
   spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency("mercenary", "0.4.0")
-  spec.add_runtime_dependency("stringex")
+  spec.add_runtime_dependency("stringex", '~> 2.8', '>= 2.8.5')
+
 end
