@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Sean Ferney"]
   spec.email         = ["sean@codekarma.dev"]
 
-  spec.summary       = "A jekyll plugin that create new pages from boilerplates"
+  spec.summary       = "A jekyll plugin that creates new pages from boilerplates"
   spec.description   = "A jekyll plugin that allows you to create new pages or posts from a boilerplate through the terminal."
   spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
