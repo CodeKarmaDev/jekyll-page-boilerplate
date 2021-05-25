@@ -35,10 +35,10 @@ RSpec.describe JekyllPageBoilerplate do
   end
 
   context 'init command' do
-    it 'creates example.yml' do
+    it 'creates example.md' do
       output = %x|exe/boilerplate init|
       expect(output).not_to match /Fatal/
-      expect(File.exist?('_boilerplates/example.yml')).to eq(true)
+      expect(File.exist?('_boilerplates/example.md')).to eq(true)
     end
   end
 

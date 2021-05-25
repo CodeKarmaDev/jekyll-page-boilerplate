@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jekyll-page-boilerplate (1.0.1)
+    jekyll-page-boilerplate (2.0.0)
       mercenary (= 0.4.0)
       stringex (~> 2.8, >= 2.8.5)
 
@@ -31,7 +31,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll-page-boilerplate!
-  rake (~> 12.0)
+  rake (~> 12.3)
   rspec (~> 3.0)
 
 BUNDLED WITH
