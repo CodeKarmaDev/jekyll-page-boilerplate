@@ -11,7 +11,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
  
   config.before(:suite) do
-    FileUtils.mkdir('test')
+    FileUtils.mkdir 'test'
   end
 
   config.after(:all) do 
@@ -20,7 +20,7 @@ RSpec.configure do |config|
   
   config.after(:suite) do 
     FileUtils.rm Dir.glob('_boilerplates/example.yml')
-    FileUtils.rm_r('test')
+    FileUtils.rm_r 'test'
   end
 
   config.expect_with :rspec do |c|
