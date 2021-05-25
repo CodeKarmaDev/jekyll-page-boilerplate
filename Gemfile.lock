@@ -31,7 +31,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll-page-boilerplate!
-  rake (~> 12.0)
+  rake (~> 12.3)
   rspec (~> 3.0)
 
 BUNDLED WITH
