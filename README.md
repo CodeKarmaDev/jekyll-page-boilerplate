@@ -30,23 +30,21 @@ Run `$ boilerplate init` to create an example file.
 
 Create a new boilerplate file under the `_boilerplates` folder.
 
-ie. `_boilerplates/post.yml`
+ie. `_boilerplates/post.md`
 ```yaml
-# the path to create the new page under.
-path: _posts
+---
+_boilerplate:     # The config for your boilerplates:
+  path: _posts    # this is the folder path it will create your new post/page under. 
+  timestamp: true # when true new post/pages will include the date in the filename.
 
-# when true new post/pages will include the date in the filename.
-timestamp: true
+title: TITLE      # The title will be overwriten
+created: CREATED  # created will be overwriten with the current time
 
-# Any yaml you put under `header` will be added to your new pages/post
-header:
-  layout: post
-  author: John D
+layout: post      # Anything else in the file will be copied to your new post/page.
+author: John Doe
+---
 
-# the markdown content to put in the new post
-content: '
-
-# Default Heading'
+A Jekyll Boilerplate Example
 
 ```
 
@@ -64,7 +62,7 @@ layout: post
 author: John Doe
 ---
 
-# Default Heading
+A Jekyll Boilerplate Example
 ```
 
 

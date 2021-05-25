@@ -14,7 +14,7 @@ Mercenary.program(:boilerplate) do |p|
   p.syntax "boilerplate <subcommand> [options]"
 
   p.command(:page) do |c|
-    c.syntax "page BOILERPLATE_NAME \"NEW PAGE TITLE\""
+    c.syntax 'page BOILERPLATE_NAME "NEW PAGE TITLE"'
     c.description "Creates a page or post from a boilerplate."
 
     c.action do |args, _|
