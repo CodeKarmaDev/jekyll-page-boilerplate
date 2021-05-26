@@ -8,5 +8,6 @@
 /tmp/
 test/*
 
+*.gem
 # rspec failure tracking
 .rspec_status
