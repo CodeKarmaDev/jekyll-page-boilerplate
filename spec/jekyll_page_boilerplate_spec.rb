@@ -46,6 +46,18 @@ RSpec.describe JekyllPageBoilerplate do
       expect(file_content).not_to match 'path: test'
       expect(file_content).not_to match 'timestamp: false'
     end
+
+
+    it 'removes doubled new lines' do
+      %x|exe/boilerplate page test 'title'|
+      file_content = ''
+      open('test/title.markdown', 'r') do |file|
+        file_content = file.read()
+      end
+
+      expect(file_content).not_to match /[\r\n]{3,}.*(?=-{3})/m
+
+    end
   end
 
   context 'init command' do
