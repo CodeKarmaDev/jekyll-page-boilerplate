@@ -55,7 +55,7 @@ RSpec.describe JekyllPageBoilerplate do
         file_content = file.read()
       end
 
-      expect(file_content).not_to match /[\r\n]{3,}.*(?=-{3})/m
+      expect(file_content).not_to match /[\r\n]{3,}[^-]*(?=-{3}$)/m
 
     end
   end
