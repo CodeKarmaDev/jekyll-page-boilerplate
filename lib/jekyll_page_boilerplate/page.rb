@@ -13,7 +13,7 @@ module JekyllPageBoilerplate
 
     def initialize boilerplate
 
-      plate_path = get_boilerplate_path(boilerplate)
+      plate_path = get_boilerplate_path(boilerplate).to_s
       
       abort_unless_file_exists( plate_path )
 

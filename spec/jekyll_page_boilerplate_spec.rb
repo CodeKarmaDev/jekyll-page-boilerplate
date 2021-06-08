@@ -32,6 +32,20 @@ RSpec.describe JekyllPageBoilerplate do
       expect(file_content).to match 'some boilerplate text'
       expect(file_content).to match 'Default Test Heading'
     end
+
+    # _boilerplate:
+    #   path: test
+    #   timestamp: false
+    it 'removes the boilerplate settings' do
+      %x|exe/boilerplate page test 'title'|
+      file_content = ''
+      open('test/title.markdown', 'r') do |file|
+        file_content = file.read()
+      end
+      expect(file_content).not_to match '_boilerplates:'
+      expect(file_content).not_to match 'path: test'
+      expect(file_content).not_to match 'timestamp: false'
+    end
   end
 
   context 'init command' do

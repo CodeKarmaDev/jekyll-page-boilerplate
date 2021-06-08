@@ -8,6 +8,8 @@ $LOAD_PATH.unshift gem_dir # Look in gem directory for resources first.
 require 'jekyll_page_boilerplate'
 require "mercenary"
 
+
+
 Mercenary.program(:boilerplate) do |p|
   p.version JekyllPageBoilerplate::VERSION
   p.description 'jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
