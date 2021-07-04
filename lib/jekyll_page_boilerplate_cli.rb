@@ -31,7 +31,7 @@ Mercenary.program(:boilerplate) do |p|
     c.description "Describe what jekyll-page-boilerplate does."
   
     c.action do
-    JekyllPageBoilerplate.help c
+      JekyllPageBoilerplate.help c
     end
   end
   
@@ -40,12 +40,9 @@ Mercenary.program(:boilerplate) do |p|
     c.description "Creates an example boilerplate."
   
     c.action do
-    JekyllPageBoilerplate.init c
+      JekyllPageBoilerplate.init c
     end
-  end
-  
-  
-  
+  end 
   
   p.default_command(:help)
 end 

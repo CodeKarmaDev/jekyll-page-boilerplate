@@ -6,7 +6,6 @@ RSpec.describe JekyllPageBoilerplate do
   context 'page command' do
     it "can create a new post/page" do
       output = %x|exe/boilerplate create test|
-      puts output
       expect(File.exist?('test/title.md')).to eq(true)
       expect(output).not_to match /Fatal/
       file_content = ''
@@ -65,6 +64,15 @@ RSpec.describe JekyllPageBoilerplate do
       expect(Dir["test/*test-title.markdown"]).not_to be_empty
     end
 
+    it 'replaces the boilerplate templates {{ boilerplate.xxx }}' do
+      output = %x|exe/boilerplate create test|
+      file_content = ''
+      open('test/title.md', 'r') do |file|
+        file_content = file.read()
+      end
+      expect(file_content).not_to match /\{{2}\s*boilerplate\.\w+\s*\}{2}/
+      expect(file_content).to match "Type is testing" 
+    end
 
 
   end
@@ -74,6 +82,15 @@ RSpec.describe JekyllPageBoilerplate do
       output = %x|exe/boilerplate init|
       expect(output).not_to match /Fatal/
       expect(File.exist?('_boilerplates/example.md')).to eq(true)
+    end
+  end
+
+  context 'alias command' do
+
+    it 'bplate' do
+      output = %x|exe/bplate|
+      expect(output).not_to match "not found"
+      expect(output).not_to match "no such file"
     end
   end
 

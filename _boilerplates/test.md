@@ -4,7 +4,7 @@ _boilerplate:
   path: test
   timestamp: false
   title: title     
-
+  type: testing 
      
 layout: post
 author: John Doe
@@ -17,4 +17,6 @@ Default Test Heading
 --------------------
 
 some boilerplate text
+
+Type is {{ boilerplate.type }}
 
