@@ -30,13 +30,17 @@ module JekyllPageBoilerplate
     
     def create
       title = @config['title']
+      @config['time'] ||= Time.now.to_s
+      @config['date'] ||= Time.now.strftime(FILE_DATE_FORMATE)
+
+      raise "Missing option `title`." unless title
       abort_unless_file_exists(@config['path'])
-      
+
 
       set_header_entry 'title', title.gsub(/[&-]/, '&'=>'&amp;', '-'=>' ')
       set_header_entry 'created', Time.now.to_s
 
-      create_new_page get_new_page_filename(title)
+      create_new_page get_new_page_filename(@config['title'])
     end
 
     private
@@ -53,11 +57,6 @@ module JekyllPageBoilerplate
         page.puts @body
         page.puts ''
       end      
-    end
-
-
-    def handle_boilerplate_template content
-
     end
 
     def set_header_entry key, val
@@ -89,7 +88,7 @@ module JekyllPageBoilerplate
       title = title.to_url
       title = "#{title}.#{@config['suffix']}"
       if @config['timestamp']
-        title = "#{Time.now.strftime(FILE_DATE_FORMATE)}-#{title}"
+        title = "#{@config['date']}-#{title}"
       end
       return title
     end

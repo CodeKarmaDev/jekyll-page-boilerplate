@@ -36,7 +36,7 @@ RSpec.describe JekyllPageBoilerplate do
     #   path: test
     #   timestamp: false
     it 'removes the boilerplate settings' do
-      %x|exe/boilerplate page test 'title'|
+      %x|exe/boilerplate page test|
       file_content = ''
       open('test/title.md', 'r') do |file|
         file_content = file.read()
@@ -48,7 +48,7 @@ RSpec.describe JekyllPageBoilerplate do
 
 
     it 'removes doubled new lines' do
-      %x|exe/boilerplate page test 'title'|
+      %x|exe/boilerplate page test|
       file_content = ''
       open('test/title.md', 'r') do |file|
         file_content = file.read()
@@ -57,6 +57,15 @@ RSpec.describe JekyllPageBoilerplate do
       expect(file_content).not_to match /[\r\n]{3,}[^-]*(?=-{3}$)/m
 
     end
+
+
+    it 'handles file options' do
+      output = %x|exe/boilerplate create test -T "Test Title" --suffix markdown --timestamp|
+      expect(Dir["test/*test-title.markdown"]).not_to be_empty
+    end
+
+    
+
   end
 
   context 'init command' do
