@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency("mercenary", "0.4.0")
-  # spec.add_runtime_dependency("liquid", "~> 4.0")
   spec.add_runtime_dependency("stringex", '~> 2.8', '>= 2.8.5')
 
 end

@@ -37,8 +37,8 @@ _boilerplate:     # The config for your boilerplates:
   path: _posts    # this is the folder path it will create your new post/page under. 
   timestamp: true # when true new post/pages will include the date in the filename.
 
-title: TITLE      # The title will be overwriten
-created: CREATED  # created will be overwriten with the current time
+title: {{ boilerplate.title }}      # The title will be overwriten
+created: {{ boilerplate.time }}  # created will be overwriten with the current time
 
 layout: post      # Anything else in the file will be copied to your new post/page.
 author: John Doe
@@ -48,9 +48,9 @@ A Jekyll Boilerplate Example
 
 ```
 
-Run `$ boilerplate create BOILERPLATE_NAME 'MY POST TITLE'`
+Run `$ boilerplate create BOILERPLATE_NAME -T 'MY POST TITLE'`
 
-ie `$ boilerplate create post 'Another one about pottery'`
+ie `$ boilerplate create post -T 'Another one about pottery'`
 
 
 This will create a new file under `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`

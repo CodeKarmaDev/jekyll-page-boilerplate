@@ -60,7 +60,7 @@ RSpec.describe JekyllPageBoilerplate do
 
 
     it 'handles file options' do
-      output = %x|exe/boilerplate create test -T "Test Title" --suffix markdown --timestamp|
+      output = %x|exe/boilerplate create test -T "Test Title" --suffix .markdown --timestamp|
       expect(Dir["test/*test-title.markdown"]).not_to be_empty
     end
 

@@ -1,7 +1,6 @@
 
 require 'yaml'
 require "stringex"
-# require "liquid"
 
 module JekyllPageBoilerplate
   class Page
@@ -23,7 +22,8 @@ module JekyllPageBoilerplate
       end
 
       @config = get_config(parsed_file['head']).merge(options)
-      @config['suffix'] ||= plate_path.split('.').last
+      @config['suffix'] ||= plate_path[/\.\w+$/]
+      @config['name'] ||= plate_path[/.*(?=\.)/] || plate_path
       @head = get_head(parsed_file['head'])
       @body = get_body(parsed_file['body'])
     end
@@ -64,11 +64,6 @@ module JekyllPageBoilerplate
       @body.gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, @config[key].to_s
     end
 
-    # def set_header_entry key, val
-    #   @head << "\n#{key}: null" unless @head.match /^#{key}:.*$/
-    #   @head.gsub! /^#{key}:.*$/, "#{key}: #{val}"
-    # end
-
     def get_body markdown
       return markdown
     end
@@ -91,7 +86,7 @@ module JekyllPageBoilerplate
 
     def get_new_page_filename title
       title = title.to_url
-      title = "#{title}.#{@config['suffix']}"
+      title = "#{title}#{@config['suffix']}"
       if @config['timestamp']
         title = "#{@config['date']}-#{title}"
       end
@@ -108,7 +103,7 @@ module JekyllPageBoilerplate
 
     def abort_unless_file_exists(file_path)
       unless File.exist?(file_path)
-        raise "#{file_path} does not exist!"
+        raise "The file `#{file_path}` does not exist!"
       end
     end
 
