@@ -58,6 +58,7 @@ This will create a new file under `_posts/yyyy-mm-dd-another-one-about-pottery.m
 ---
 title: Another one about pottery
 created: 'yyyy-mm-dd hh:mm:ss -0000'
+
 layout: post
 author: John Doe
 ---

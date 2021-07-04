@@ -72,6 +72,7 @@ RSpec.describe JekyllPageBoilerplate do
       end
       expect(file_content).not_to match /\{{2}\s*boilerplate\.\w+\s*\}{2}/
       expect(file_content).to match "Type is testing" 
+      expect(file_content).to match "File is title.md" 
     end
 
 

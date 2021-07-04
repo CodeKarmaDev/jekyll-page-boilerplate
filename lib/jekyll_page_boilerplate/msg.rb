@@ -11,7 +11,8 @@ module JekyllPageBoilerplate
       _boilerplate:     # boilerplate settings
         path: _posts    #   the path to create the new page under.
         timestap: true  #   when true new post/pages will include the date in the filename. 
-      
+     
+      title: {{ boilerplate.title }}
       layout: post      # everthing else will be copied to the new post.
       author: John Doe
   

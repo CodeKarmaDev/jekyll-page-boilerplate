@@ -19,4 +19,5 @@ Default Test Heading
 some boilerplate text
 
 Type is {{ boilerplate.type }}
+File is {{ boilerplate.file }}
 

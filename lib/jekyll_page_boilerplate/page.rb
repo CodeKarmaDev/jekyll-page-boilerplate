@@ -29,18 +29,17 @@ module JekyllPageBoilerplate
     end
     
     def create
-      title = @config['title']
       @config['time'] ||= Time.now.to_s
       @config['date'] ||= Time.now.strftime(FILE_DATE_FORMATE)
 
-      raise "Missing option `title`." unless title
+      raise "Missing option `title`." unless @config['title']
       abort_unless_file_exists(@config['path'])
+      
+      @config['file'] ||= get_new_page_filename(@config['title'])
 
-      @config.each do |k,v|
-        fill_template k, v
-      end
+      config_template
 
-      create_new_page get_new_page_filename(@config['title'])
+      create_new_page @config['file']
     end
 
     private
@@ -57,6 +56,12 @@ module JekyllPageBoilerplate
         page.puts @body
         page.puts ''
       end      
+    end
+
+    def config_template
+      @config.each do |k,v|
+        fill_template k, v
+      end
     end
 
     def fill_template key, val
