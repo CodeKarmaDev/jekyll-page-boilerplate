@@ -32,10 +32,9 @@ module JekyllPageBoilerplate
       @config['time'] ||= Time.now.to_s
       @config['date'] ||= Time.now.strftime(FILE_DATE_FORMATE)
 
-      raise "Missing option `title`." unless @config['title']
       abort_unless_file_exists(@config['path'])
       
-      @config['file'] ||= get_new_page_filename(@config['title'])
+      @config['file'] ||= get_new_page_filename(@config['title'] || @config['name'])
 
       config_template
 
@@ -84,7 +83,7 @@ module JekyllPageBoilerplate
 
     def get_boilerplate_path plate_name
       return Dir.glob( 
-        "#{File.join(BOILERPLATES_PATH, plate_name)}.{md,markdown,MD,MARKDOWN}" 
+        "#{File.join(BOILERPLATES_PATH, plate_name)}*" 
       ).first
     end
 

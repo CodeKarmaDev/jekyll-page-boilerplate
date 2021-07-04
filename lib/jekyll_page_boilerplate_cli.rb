@@ -14,7 +14,6 @@ Mercenary.program(:boilerplate) do |p|
     c.option 'timestamp', '--timestamp', 'Use timestames in the filename'
     c.option 'suffix', '--suffix STRING', 'Define the ending suffix (md, markdown, txt)'
     c.option 'title', '-T STRING', '--title STRING', 'Sets the title of the post.'
-    c.option 'config', '-c', '--config', 'Adds elements to the config options', Array, 'the config options'
 
     c.action do |args, options|
       JekyllPageBoilerplate.page args[0], options, c

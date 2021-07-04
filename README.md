@@ -33,12 +33,13 @@ Create a new boilerplate file under the `_boilerplates` folder.
 ie. `_boilerplates/post.md`
 ```yaml
 ---
-_boilerplate:     # The config for your boilerplates:
-  path: _posts    # this is the folder path it will create your new post/page under. 
-  timestamp: true # when true new post/pages will include the date in the filename.
+_boilerplate:           # The config for your boilerplates:
+  path: _posts          # this is the folder path it will create your new post/page under. 
+  timestamp: true       # when true new post/pages will include the date in the filename.
+  title: Default Title  # You can provide a title here or with the -T option
 
-title: {{ boilerplate.title }}      # The title will be overwriten
-created: {{ boilerplate.time }}  # created will be overwriten with the current time
+title: {{ boilerplate.title }}   # -T or --title options
+created: {{ boilerplate.time }}  # the current time.
 
 layout: post      # Anything else in the file will be copied to your new post/page.
 author: John Doe
@@ -65,6 +66,22 @@ author: John Doe
 
 A Jekyll Boilerplate Example
 ```
+
+### Templating
+
+The boilerplate will replace `{{ boilerplate.xxx }}` its own data.
+
+- `title` as provided by the `-T` option or as provided in the `_boilerplate` header.
+- `name` the name of the boilerplate (`_boilerplates/posts.md > posts`)
+- `suffix` the file suffix (`.md`, `.markdown`, `.txt`)
+- `time` the datetime the post was created at.
+- `date` the date as used in the file timestamp
+- `file` the filename of the new post
+- `path` the folder to place the new file in. provided with the `-p` option or in the header.
+
+you can also provide your own data in the `_boilerplate` header and use it in your document.
+
+
 
 
 ## Development
