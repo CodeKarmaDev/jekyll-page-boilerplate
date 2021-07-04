@@ -24,7 +24,16 @@ Mercenary.program(:boilerplate) do |p|
     c.alias :page
     c.alias :blog
   end
-  
+ 
+  p.command(:list) do |c|
+    c.syntax 'list'
+    c.description "List all the boilerplates"
+
+    c.action do
+      JekyllPageBoilerplate.list c
+    end
+  end
+
   p.command(:help) do |c|
     c.syntax "help"
     c.description "Describe what jekyll-page-boilerplate does."

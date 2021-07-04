@@ -86,6 +86,15 @@ RSpec.describe JekyllPageBoilerplate do
     end
   end
 
+  context 'list command' do
+    it 'displays a list' do
+      output = %x|exe/boilerplate list|
+      expect(output).to match('test')
+      expect(output).to match('example')
+      expect(output).not_to match( ".md")
+    end
+  end
+
   context 'alias command' do
 
     it 'bplate' do

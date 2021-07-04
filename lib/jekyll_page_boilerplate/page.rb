@@ -3,9 +3,10 @@ require 'yaml'
 require "stringex"
 
 module JekyllPageBoilerplate
+  BOILERPLATES_PATH = '_boilerplates'
+  
   class Page
 
-    BOILERPLATES_PATH = '_boilerplates'
     FILE_DATE_FORMATE = '%Y-%m-%d'
     READ_CONFIG_REGEX = /[\r\n\s]{0,}^_boilerplate:(\s*^[\t ]{1,2}.+$)+[\r\s\n]{0,}(?![^\r\s\n])/
     READ_FILE_REGEX = /^-{3}\s*^(?<head>[\s\S]*)^-{3}\s^(?<body>[\s\S]*)/

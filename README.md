@@ -78,6 +78,7 @@ The boilerplate will replace `{{ boilerplate.xxx }}` its own data.
 - `date` the date as used in the file timestamp
 - `file` the filename of the new post
 - `path` the folder to place the new file in. provided with the `-p` option or in the header.
+- `timestamp` should it include a timestamp in the file name.
 
 you can also provide your own data in the `_boilerplate` header and use it in your document.
 

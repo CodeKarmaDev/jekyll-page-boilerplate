@@ -1,6 +1,7 @@
 require "jekyll_page_boilerplate/version"
 require "jekyll_page_boilerplate/page"
 require "jekyll_page_boilerplate/msg"
+require "jekyll_page_boilerplate/list"
 require "jekyll_page_boilerplate/init"
 
 
@@ -16,6 +17,15 @@ module JekyllPageBoilerplate
     end
   end
 
+
+  def self.list cmd
+    begin
+      output = List.display
+      cmd.logger.info output.to_s
+    rescue => e
+      cmd.logger.fatal e.message
+    end
+  end
 
   def self.help cmd
     cmd.logger.info Msg::HELP
