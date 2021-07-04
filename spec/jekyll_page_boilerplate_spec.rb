@@ -6,6 +6,7 @@ RSpec.describe JekyllPageBoilerplate do
   context 'page command' do
     it "can create a new post/page" do
       output = %x|exe/boilerplate create test|
+      puts output
       expect(File.exist?('test/title.md')).to eq(true)
       expect(output).not_to match /Fatal/
       file_content = ''
@@ -64,7 +65,7 @@ RSpec.describe JekyllPageBoilerplate do
       expect(Dir["test/*test-title.markdown"]).not_to be_empty
     end
 
-    
+
 
   end
 

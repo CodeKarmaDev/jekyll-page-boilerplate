@@ -36,9 +36,9 @@ module JekyllPageBoilerplate
       raise "Missing option `title`." unless title
       abort_unless_file_exists(@config['path'])
 
-
-      set_header_entry 'title', title.gsub(/[&-]/, '&'=>'&amp;', '-'=>' ')
-      set_header_entry 'created', Time.now.to_s
+      @config.each do |k,v|
+        fill_template k, v
+      end
 
       create_new_page get_new_page_filename(@config['title'])
     end
@@ -59,10 +59,15 @@ module JekyllPageBoilerplate
       end      
     end
 
-    def set_header_entry key, val
-      @head << "\n#{key}: null" unless @head.match /^#{key}:.*$/
-      @head.gsub! /^#{key}:.*$/, "#{key}: #{val}"
+    def fill_template key, val
+      @head.gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, @config[key].to_s
+      @body.gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, @config[key].to_s
     end
+
+    # def set_header_entry key, val
+    #   @head << "\n#{key}: null" unless @head.match /^#{key}:.*$/
+    #   @head.gsub! /^#{key}:.*$/, "#{key}: #{val}"
+    # end
 
     def get_body markdown
       return markdown
