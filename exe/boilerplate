@@ -5,47 +5,55 @@ STDOUT.sync = true
 gem_dir = File.expand_path("..",File.dirname(__FILE__))
 $LOAD_PATH.unshift gem_dir # Look in gem directory for resources first.
 
-require 'jekyll_page_boilerplate'
-require "mercenary"
+require 'jekyll_page_boilerplate_cli'
 
 
 
-Mercenary.program(:boilerplate) do |p|
-  p.version JekyllPageBoilerplate::VERSION
-  p.description 'jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
-  p.syntax "boilerplate <subcommand> [options]"
+# Mercenary.program(:boilerplate) do |p|
+#   p.version JekyllPageBoilerplate::VERSION
+#   p.description 'jekyll-page-boilerplate is a gem for jekyll that helps you generate new pages'
+#   p.syntax "boilerplate <subcommand> [options]"
 
-  p.command(:page) do |c|
-    c.syntax 'page BOILERPLATE_NAME "NEW PAGE TITLE"'
-    c.description "Creates a page or post from a boilerplate."
+#   p.command(:create) do |c|
+#     c.syntax 'create BOILERPLATE_NAME [options]'
+#     c.description "Creates a page or post from a boilerplate."
 
-    c.action do |args, _|
-      JekyllPageBoilerplate.page args[0], args[1], c
-    end
-  end
+#     c.option 'path', '-p', '--path', 'Sets the path to create the new file at'
+#     c.option 'timestamp', '--timestamp', 'Use timestames in the filename'
+#     c.option 'title', '-t', '--title', 'Sets the title of the post.'
+#     c.option 'title', '-c', '--config', 'Adds elements to the config options', Hash, 'the config options'
 
-  p.command(:help) do |c|
-    c.syntax "help"
-    c.description "Describe what jekyll-page-boilerplate does."
+#     c.action do |args, options|
+#       JekyllPageBoilerplate.page args[0], options, c
+#     end
 
-    c.action do
-      JekyllPageBoilerplate.help c
-    end
-  end
+#     c.alias :page
+#     c.alias :make
+#     c.alias :post
+#   end
+
+#   p.command(:help) do |c|
+#     c.syntax "help"
+#     c.description "Describe what jekyll-page-boilerplate does."
+
+#     c.action do
+#       JekyllPageBoilerplate.help c
+#     end
+#   end
   
-  p.command(:init) do |c|
-    c.syntax "init"
-    c.description "Creates an example boilerplate."
+#   p.command(:init) do |c|
+#     c.syntax "init"
+#     c.description "Creates an example boilerplate."
 
-    c.action do
-      JekyllPageBoilerplate.init c
-    end
-  end
-
-
+#     c.action do
+#       JekyllPageBoilerplate.init c
+#     end
+#   end
 
 
-  p.default_command(:help)
-end
+
+
+#   p.default_command(:help)
+# end
 
 

@@ -3,6 +3,7 @@ require "jekyll_page_boilerplate/page"
 require "jekyll_page_boilerplate/msg"
 require "jekyll_page_boilerplate/init"
 
+
 module JekyllPageBoilerplate
   class Error < StandardError; end
 
@@ -21,10 +22,10 @@ module JekyllPageBoilerplate
   end
 
 
-  def self.page boilerplate_name, page_title, cmd
-    page = Page.new(boilerplate_name)
+  def self.page boilerplate_name, options, cmd
+    page = Page.new(boilerplate_name, options)
     begin
-      page.create(page_title)
+      page.create
     rescue => e
       cmd.logger.fatal e.message
     end

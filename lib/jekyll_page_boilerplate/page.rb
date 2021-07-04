@@ -1,6 +1,7 @@
 
 require 'yaml'
 require "stringex"
+# require "liquid"
 
 module JekyllPageBoilerplate
   class Page
@@ -11,10 +12,9 @@ module JekyllPageBoilerplate
     READ_FILE_REGEX = /^-{3}\s*^(?<head>[\s\S]*)^-{3}\s^(?<body>[\s\S]*)/
 
 
-    def initialize boilerplate
-
+    def initialize boilerplate, options
       plate_path = get_boilerplate_path(boilerplate).to_s
-      
+
       abort_unless_file_exists( plate_path )
 
       parsed_file = {}
@@ -22,14 +22,17 @@ module JekyllPageBoilerplate
         parsed_file = file.read.match(READ_FILE_REGEX).named_captures
       end
 
-      @config = get_config(parsed_file['head'])       
+      @config = get_config(parsed_file['head']).merge(options)
+      @config['suffix'] ||= plate_path.split('.').last
       @head = get_head(parsed_file['head'])
       @body = get_body(parsed_file['body'])
     end
     
-    def create title
+    def create
+      title = @config['title']
       abort_unless_file_exists(@config['path'])
       
+
       set_header_entry 'title', title.gsub(/[&-]/, '&'=>'&amp;', '-'=>' ')
       set_header_entry 'created', Time.now.to_s
 
@@ -52,6 +55,10 @@ module JekyllPageBoilerplate
       end      
     end
 
+
+    def handle_boilerplate_template content
+
+    end
 
     def set_header_entry key, val
       @head << "\n#{key}: null" unless @head.match /^#{key}:.*$/
@@ -80,7 +87,7 @@ module JekyllPageBoilerplate
 
     def get_new_page_filename title
       title = title.to_url
-      title = "#{title}#{@config['suffix'] || '.markdown'}"
+      title = "#{title}.#{@config['suffix']}"
       if @config['timestamp']
         title = "#{Time.now.strftime(FILE_DATE_FORMATE)}-#{title}"
       end

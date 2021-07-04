@@ -5,11 +5,11 @@ RSpec.describe JekyllPageBoilerplate do
 
   context 'page command' do
     it "can create a new post/page" do
-      output = %x|exe/boilerplate page test 'title'|
-      expect(File.exist?('test/title.markdown')).to eq(true)
+      output = %x|exe/boilerplate create test|
+      expect(File.exist?('test/title.md')).to eq(true)
       expect(output).not_to match /Fatal/
       file_content = ''
-      open('test/title.markdown', 'r') do |file|
+      open('test/title.md', 'r') do |file|
         file_content = file.read()
       end
       expect(file_content).to match /---/
@@ -18,15 +18,14 @@ RSpec.describe JekyllPageBoilerplate do
     end
     
     it "cant create two pages with the same name" do
-      %x|exe/boilerplate page test 'title'|
-      output = %x|exe/boilerplate page test 'title'|
+      output = %x|exe/boilerplate page test|
       expect(output).to match /Fatal/
     end
 
     it 'can create content' do
-      %x|exe/boilerplate page test 'title'|
+      %x|exe/boilerplate page test|
       file_content = ''
-      open('test/title.markdown', 'r') do |file|
+      open('test/title.md', 'r') do |file|
         file_content = file.read()
       end
       expect(file_content).to match 'some boilerplate text'
@@ -39,7 +38,7 @@ RSpec.describe JekyllPageBoilerplate do
     it 'removes the boilerplate settings' do
       %x|exe/boilerplate page test 'title'|
       file_content = ''
-      open('test/title.markdown', 'r') do |file|
+      open('test/title.md', 'r') do |file|
         file_content = file.read()
       end
       expect(file_content).not_to match '_boilerplates:'
@@ -51,7 +50,7 @@ RSpec.describe JekyllPageBoilerplate do
     it 'removes doubled new lines' do
       %x|exe/boilerplate page test 'title'|
       file_content = ''
-      open('test/title.markdown', 'r') do |file|
+      open('test/title.md', 'r') do |file|
         file_content = file.read()
       end
 

@@ -3,12 +3,13 @@
 _boilerplate:
   path: test
   timestamp: false
-     
+  title: title     
 
      
 layout: post
 author: John Doe
-created: null
+title: {{ boilerplate.title }}
+created: {{ boilerplate.time }}
 ---
 
 
