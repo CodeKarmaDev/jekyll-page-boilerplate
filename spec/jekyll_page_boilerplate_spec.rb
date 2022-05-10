@@ -1,3 +1,4 @@
+require 'spec_helper'
 RSpec.describe JekyllPageBoilerplate do
 
   let(:file_content) {File.read('test/title.md')}
@@ -6,16 +7,21 @@ RSpec.describe JekyllPageBoilerplate do
     expect(JekyllPageBoilerplate::VERSION).not_to be nil
   end
 
-  context '`boilerplate <page>` command' do
-    subject { %x|exe/boilerplate test| }
-  
-    it('creates a file') {expect(File.exist?('test/title.md')).to eq(true)}
-    it('does not throw Fatal') {is_expected.not_to match /Fatal/}
+  context '`boilerplate` command renders readme' do
+    subject { %x|exe/boilerplate| }
+    it {is_expected.to match 'A boilerplate is a markdown file in the'}
+  end
 
-    it 'cant override an existing page' do 
-      subject
+  context '`boilerplate <page>` command' do
+    subject {%x|exe/boilerplate test|}
+  
+    it('creates a file') do
+      is_expected.not_to match /Fatal/
+      expect(File.exist?('test/title.md')).to eq(true)
       expect(%x|exe/boilerplate test|).to match /Fatal/
     end
+
+    it {is_expected.to match 'test/title.md'}
   end
 
   context '`boilerplate <page>` file content' do
@@ -56,19 +62,23 @@ RSpec.describe JekyllPageBoilerplate do
   end
 
   context '`boilerplate <page> -T "Test Title" --suffix .markdown --timestamp`' do
-    before do
-      %x|exe/boilerplate test -T "Test Title" --suffix .markdown --timestamp|
-    end
+    subject { %x|exe/boilerplate test -T "Test Title" --suffix .markdown --timestamp|}
 
     it 'handles file options' do
+      is_expected.not_to match 'Fatal'
+      expect(Dir["test/*"]).not_to be_empty
       expect(Dir["test/*test-title.markdown"]).not_to be_empty
     end
+    
+    it {is_expected.to match /test\/.+test-title\.markdown/}
   end
 
   context '`boilerplate init` command' do
     subject {%x|exe/boilerplate init|}
 
     it {is_expected.not_to match /Fatal/}
+    
+    it {is_expected.to match '_boilerplates/example.md'}
 
     it 'creates example.md' do
       expect(File.exist?('_boilerplates/example.md')).to eq(true)
@@ -85,7 +95,7 @@ RSpec.describe JekyllPageBoilerplate do
   end
 
   context '`bplate` alias command' do
-    subject { %x|exe/bplate| }
+    subject { %x|exe/bplate test| }
     it {is_expected.not_to match "not found"}
     it {is_expected.not_to match "no such file"}
   end

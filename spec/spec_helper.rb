@@ -14,7 +14,7 @@ RSpec.configure do |config|
     FileUtils.mkdir 'test'
   end
 
-  config.after(:all) do 
+  config.after(:each) do 
     FileUtils.rm Dir.glob('test/*')
   end
   

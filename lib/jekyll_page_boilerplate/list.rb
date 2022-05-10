@@ -1,16 +1,15 @@
 
 module JekyllPageBoilerplate
 
-  module List
+  class List
 
     SPACER = '\n'
     REMOVE_SUFFIX = /\.\w+(?=[\s\n\r$])/
 
-    def display
-      return Dir.pwd
-      return Dir.glob(
-        "_boilerplates/**"
-      ).inspect
+    def self.run
+      Dir.glob("_boilerplates/*").map do |f|
+        File.basename(f, '.*')
+      end
     end
 
   end

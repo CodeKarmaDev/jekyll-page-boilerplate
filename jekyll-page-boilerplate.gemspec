@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["sean@codekarma.dev"]
 
   spec.summary       = "A jekyll plugin that creates new pages from boilerplates"
-  spec.description   = "A jekyll plugin that allows you to create new pages or posts from a boilerplate through the terminal."
+  spec.description   = JekyllPageBoilerplate::DESCRIPTION
   spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
 
@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency('bales', '~> 0.1.3')
   spec.add_runtime_dependency("mercenary", "0.4.0")
   spec.add_runtime_dependency("stringex", '~> 2.8', '>= 2.8.5')
 

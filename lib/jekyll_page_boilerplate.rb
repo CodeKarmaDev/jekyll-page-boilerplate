@@ -1,44 +1,33 @@
 require "jekyll_page_boilerplate/version"
-require "jekyll_page_boilerplate/page"
 require "jekyll_page_boilerplate/msg"
-require "jekyll_page_boilerplate/list"
+require "jekyll_page_boilerplate/page"
 require "jekyll_page_boilerplate/init"
+require "jekyll_page_boilerplate/list"
 
 
 module JekyllPageBoilerplate
   class Error < StandardError; end
 
-
-  def self.init cmd
-    begin
-      Init.setup
-    rescue => e
-      cmd.logger.fatal e.message
+  def self.init 
+    Msg.try_and_report do
+      Init.run
     end
   end
 
-
-  def self.list cmd
-    begin
-      output = List.display
-      cmd.logger.info output.to_s
-    rescue => e
-      cmd.logger.fatal e.message
+  def self.list
+    Msg.try_and_report do
+      List.run
     end
   end
 
-  def self.help cmd
-    cmd.logger.info Msg::HELP
+  def self.readme
+    Msg.file 'readme.md'
   end
 
-
-  def self.page boilerplate_name, options, cmd
-    page = Page.new(boilerplate_name, options)
-    begin
-      page.create
-    rescue => e
-      cmd.logger.fatal e.message
+  def self.page boilerplate_name, options
+    Msg.try_and_report do
+      Page.run(boilerplate_name, options)
     end
-  end
+  end  
 
 end
