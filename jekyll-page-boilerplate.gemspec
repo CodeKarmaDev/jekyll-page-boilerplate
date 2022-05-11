@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["sean@codekarma.dev"]
 
   spec.summary       = JekyllPageBoilerplate::Msg::SUMMARY
-  spec.description   = JekyllPageBoilerplate::Msg.description
+  spec.description   = JekyllPageBoilerplate::Msg.read_file('gem_description.md')
   spec.homepage      = "https://github.com/CodeKarmaDev/jekyll-page-boilerplate"
   spec.license       = "MIT"
 
