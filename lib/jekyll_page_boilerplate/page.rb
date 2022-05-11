@@ -93,11 +93,6 @@ class JekyllPageBoilerplate::Page
     end
   end
 
-  def fill_template key, val
-    @head.gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, @config[key].to_s
-    @body.gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, @config[key].to_s
-  end
-
   def get_body markdown
     return markdown
   end

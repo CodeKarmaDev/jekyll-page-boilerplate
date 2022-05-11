@@ -49,9 +49,9 @@ A Jekyll Boilerplate Example
 
 ```
 
-Run `$ boilerplate create BOILERPLATE_NAME -T 'MY POST TITLE'`
+Run `$ boilerplate BOILERPLATE_NAME -T 'MY POST TITLE'`
 
-ie `$ boilerplate create post -T 'Another one about pottery'`
+ie `$ boilerplate post -T 'Another one about pottery'`
 
 
 This will create a new file under `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`
@@ -79,6 +79,7 @@ The boilerplate will replace `{{ boilerplate.xxx }}` its own data.
 - `file` the filename of the new post
 - `path` the folder to place the new file in. provided with the `-p` option or in the header.
 - `timestamp` should it include a timestamp in the file name.
+- `random_url` a random url safe base 64 string 
 
 you can also provide your own data in the `_boilerplate` header and use it in your document.
 
