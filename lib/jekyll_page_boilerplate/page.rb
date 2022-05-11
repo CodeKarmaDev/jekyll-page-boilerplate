@@ -21,7 +21,7 @@ class JekyllPageBoilerplate::Page
 
   def initialize boilerplate, options
     options.compact!
-    options.transform_keys! {|k| k.to_s}
+    options.transform_keys!(&:to_s)
     plate_path = get_boilerplate_path(boilerplate).to_s
 
     abort_unless_file_exists( plate_path )
@@ -82,8 +82,8 @@ class JekyllPageBoilerplate::Page
  
   class Tag
     class << self
-      def missing_method
-        nil
+      def method_missing *args
+        ''
       end
 
       def random_url length = nil

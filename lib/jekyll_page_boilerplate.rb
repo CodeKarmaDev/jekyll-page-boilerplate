@@ -21,7 +21,7 @@ module JekyllPageBoilerplate
   end
 
   def self.readme
-    Msg.file 'readme.md'
+    Msg.file 'description.md'
   end
 
   def self.page boilerplate_name, options

@@ -9,7 +9,7 @@ RSpec.describe JekyllPageBoilerplate do
 
   context '`boilerplate` command renders readme' do
     subject { %x|exe/boilerplate| }
-    it {is_expected.to match 'A boilerplate is a markdown file in the'}
+    it {is_expected.to match 'A boilerplate is a markdown'}
   end
 
   context '`boilerplate <page>` command' do
@@ -33,6 +33,10 @@ RSpec.describe JekyllPageBoilerplate do
       is_expected.to match /---/
       is_expected.to match /layout: post/
       is_expected.to match /author: John Doe/
+    end
+
+    it 'does not render nill' do
+      is_expected.not_to match /nil|null/
     end
 
     it 'can create content' do
@@ -75,6 +79,17 @@ RSpec.describe JekyllPageBoilerplate do
     
     it {is_expected.to match /test\/.+test-title\.markdown/}
   end
+  
+  context '`boilerplate <page> custom=1` command' do
+    subject {%x|exe/boilerplate test custom=1|}
+     
+    it 'handles custom params' do
+      is_expected.not_to match 'Fatal'
+      expect(File.exist?('test/title.md')).to eq(true)
+      expect(file_content).to match 'custom: 1'
+      expect(file_content).not_to match 'boilerplate.custom'
+    end
+  end
 
   context '`boilerplate init` command' do
     subject {%x|exe/boilerplate init|}
@@ -86,6 +101,12 @@ RSpec.describe JekyllPageBoilerplate do
     it 'creates example.md' do
       expect(File.exist?('_boilerplates/example.md')).to eq(true)
     end
+  end
+
+  context '`boilerplate help` command' do
+    subject { %x|exe/boilerplate help| }
+    it {is_expected.not_to match '(no summary)'}
+    it {is_expected.not_to match '(no description)'}
   end
 
   context '`boilerplate list` command' do

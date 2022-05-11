@@ -1,8 +1,18 @@
 
 module JekyllPageBoilerplate::Msg
 
+  SUMMARY = "A jekyll plugin that allows you to create new pages or posts from a boilerplate through the terminal."  
+
   def self.file name
-    puts File.read(File.join(__dir__, 'msg', name))
+    puts self.read_file name
+  end
+
+  def self.description
+    self.read_file('description.md')
+  end
+
+  def self.read_file name
+    File.read(File.join(__dir__, 'msg', name))
   end
   
   def self.error(**msgs)

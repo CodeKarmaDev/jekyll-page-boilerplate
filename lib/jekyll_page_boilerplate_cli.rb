@@ -3,8 +3,8 @@ require 'jekyll_page_boilerplate'
 
 class JekyllPageBoilerplate::Application < Bales::Application
   version JekyllPageBoilerplate::VERSION
-  description JekyllPageBoilerplate::DESCRIPTION
-
+  description JekyllPageBoilerplate::Msg.description
+  summary JekyllPageBoilerplate::Msg::SUMMARY
   # `boilerplate <page>`  
   option :title, type: String, long_form: '--title', short_form: '-T',
     description: "`path/<title>.md`"
@@ -15,16 +15,12 @@ class JekyllPageBoilerplate::Application < Bales::Application
   option :suffix, type: String, long_form: '--suffix', short_form: '-x',
     description: "`path/title.<md, markdown, txt>`"
 
-  action do |plate, title: nil, path: nil, timestamp: nil, suffix: nil|
-    JekyllPageBoilerplate.page plate, {title: title, path: path, suffix: suffix, timestamp: timestamp}
-  end
-
-  # `boilerplate readme`  
-  command 'readme' do
-    description "Helpful info"
-    action do
-      JekyllPageBoilerplate.readme
-    end
+  action do |plate, *custom, title: nil, path: nil, timestamp: nil, suffix: nil|
+    custom = Hash[custom.map {|v| v.split('=')}]
+    JekyllPageBoilerplate.page plate, custom.merge({
+      title: title, path: path, 
+      suffix: suffix, timestamp: timestamp
+    })
   end
 
   # `boilerplate help`  
@@ -32,7 +28,7 @@ class JekyllPageBoilerplate::Application < Bales::Application
 
   # `boilerplate init`  
   command 'init' do
-    description "Creates an example boilerplate."
+    summary "Creates an example boilerplate."
     action do
       JekyllPageBoilerplate.init
     end
@@ -40,7 +36,7 @@ class JekyllPageBoilerplate::Application < Bales::Application
   
   # `boilerplate list`  
   command 'list' do
-    description "List all the boilerplates"
+    summary "List all the boilerplates"
     action do 
       JekyllPageBoilerplate.list
     end
