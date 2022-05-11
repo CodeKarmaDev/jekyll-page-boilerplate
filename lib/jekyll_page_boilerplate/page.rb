@@ -1,7 +1,7 @@
 
 require 'yaml'
 require "stringex"
-
+require 'securerandom'
 
 class JekyllPageBoilerplate::Page
   
@@ -9,6 +9,7 @@ class JekyllPageBoilerplate::Page
   FILE_DATE_FORMATE = '%Y-%m-%d'
   READ_CONFIG_REGEX = /[\r\n\s]{0,}^_boilerplate:(\s*^[\t ]{1,2}.+$)+[\r\s\n]{0,}(?![^\r\s\n])/
   READ_FILE_REGEX = /^-{3}\s*^(?<head>[\s\S]*)^-{3}\s^(?<body>[\s\S]*)/
+  TAGS_REGEX = /(?<tag>\{{2}\s{0,}boilerplate\.(?<key>[^\{\}\.\s]+)\s{0,}\}{2})/
 
   attr_reader :config
 
@@ -45,7 +46,8 @@ class JekyllPageBoilerplate::Page
     
     @config['file'] ||= get_new_page_filename(@config['title'] || @config['name'])
 
-    config_template
+    scan_template :@body
+    scan_template :@head
 
     create_new_page @config['file']
   end
@@ -66,9 +68,28 @@ class JekyllPageBoilerplate::Page
     end      
   end
 
-  def config_template
-    @config.each do |k,v|
-      fill_template k, v
+  def scan_template var
+    instance_variable_get(var).scan(TAGS_REGEX).uniq.each do |tag, key|
+      instance_variable_get(var).gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, get_tag_value(key)
+    end
+  end
+
+  def get_tag_value(key)
+    return @config[key] if @config[key]
+    key = key.split('=')
+    return Tag.send(key[0].to_sym, *key[1]&.split(','))
+  end
+ 
+  class Tag
+    class << self
+      def missing_method
+        nil
+      end
+
+      def random_url length = nil
+        length && length = length.to_i
+        SecureRandom.urlsafe_base64(length)
+      end
     end
   end
 

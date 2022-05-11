@@ -10,6 +10,8 @@ layout: post
 author: John Doe
 title: {{ boilerplate.title }}
 created: {{ boilerplate.time }}
+random_url: {{ boilerplate.random_url }}
+random_url: {{ boilerplate.random_url=5 }}
 ---
 
 
