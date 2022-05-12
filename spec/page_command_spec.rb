@@ -91,6 +91,18 @@ RSpec.describe JekyllPageBoilerplate::Page do
   end
 
 
+  # this is the file_name_template slug
+  context '`boilerplate <page> num=02 --slug "{{ num }}-{{ title }}-{{ date }}{{ suffix }}"`' do
+
+    subject {%x|exe/boilerplate test num=02 --slug "{{ num }}-{{ title }}-{{ date }}{{ suffix }}"|}
+
+    it 'slug template creates a file' do
+      is_expected.not_to match 'Fatal'
+      is_expected.to match 'Created'
+      expect(Dir.glob('test/02-title-*.md')).not_to be_empty
+    end
+
+  end
 
 
 end

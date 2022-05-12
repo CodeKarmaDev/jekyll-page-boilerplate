@@ -28,6 +28,7 @@ RSpec.describe JekyllPageBoilerplate do
     subject { %x|exe/boilerplate help| }
     it {is_expected.not_to match '(no summary)'}
     it {is_expected.not_to match '(no description)'}
+    it {is_expected.to match '--slug'}
   end
 
   context '`boilerplate list` command' do

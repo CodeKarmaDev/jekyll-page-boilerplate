@@ -9,7 +9,10 @@ class JekyllPageBoilerplate::Page
   FILE_DATE_FORMATE = '%Y-%m-%d'
   READ_CONFIG_REGEX = /[\r\n\s]{0,}^_boilerplate:(\s*^[\t ]{1,2}.+$)+[\r\s\n]{0,}(?![^\r\s\n])/
   READ_FILE_REGEX = /^-{3}\s*^(?<head>[\s\S]*)^-{3}\s^(?<body>[\s\S]*)/
-  TAGS_REGEX = /(?<tag>\{{2}\s{0,}boilerplate\.(?<key>[^\{\}\.\s]+)\s{0,}\}{2})/
+  TAGS_REGEX = /\{{2}\s{0,}boilerplate\.([^\{\}\.\s]+)\s{0,}\}{2}/
+  TAG_SLUG = /\{{2}\s{0,}([^\{\}\.\s]+)\s{0,}\}{2}/
+
+
 
   attr_reader :config
 
@@ -34,6 +37,13 @@ class JekyllPageBoilerplate::Page
     @config = get_config(parsed_file['head']).merge(options)
     @config['suffix'] ||= plate_path[/\.\w+$/]
     @config['name'] ||= plate_path[/.*(?=\.)/] || plate_path
+    unless @config['slug'] 
+      if @config['timestamp']
+        @config['slug'] = '{{ date }}-{{ title }}{{ suffix }}' 
+      else
+        @config['slug'] = '{{ title }}{{ suffix }}' 
+      end
+    end
     @head = get_head(parsed_file['head'])
     @body = get_body(parsed_file['body'])
   end
@@ -44,7 +54,8 @@ class JekyllPageBoilerplate::Page
 
     abort_unless_file_exists(@config['path'])
     
-    @config['file'] ||= get_new_page_filename(@config['title'] || @config['name'])
+    scan_slug
+    @config['file'] ||= @config['slug'] 
 
     scan_template :@body
     scan_template :@head
@@ -69,13 +80,22 @@ class JekyllPageBoilerplate::Page
   end
 
   def scan_template var
-    instance_variable_get(var).scan(TAGS_REGEX).uniq.each do |tag, key|
-      instance_variable_get(var).gsub! /\{{2}\s{0,}boilerplate\.#{key}\s{0,}\}{2}/, get_tag_value(key)
+    instance_variable_get(var).scan(TAGS_REGEX).flatten.uniq.each do |tag|
+      instance_variable_get(var).gsub! /\{{2}\s{0,}boilerplate\.#{tag}\s{0,}\}{2}/, get_tag_value(tag)
     end
+  end
+
+  def scan_slug
+    @config['slug'].scan(TAG_SLUG).flatten.uniq do |tag|
+      @config['slug'].gsub! /\{{2}\s{0,}#{tag}\s{0,}\}{2}/, get_tag_value(tag)
+    end
+    @config['slug'].gsub!(/[^0-9A-Za-z\.\-_]/, '-')
+    @config['slug'].downcase!
   end
 
   def get_tag_value(key)
     return @config[key] if @config[key]
+    return @config['name'] if key == 'title'
     key = key.split('=')
     return Tag.send(key[0].to_sym, *key[1]&.split(','))
   end
@@ -110,16 +130,6 @@ class JekyllPageBoilerplate::Page
     return Dir.glob( 
       "#{File.join(BOILERPLATES_PATH, plate_name)}*" 
     ).first
-  end
-
-
-  def get_new_page_filename title
-    title = title.to_url
-    title = "#{title}#{@config['suffix']}"
-    if @config['timestamp']
-      title = "#{@config['date']}-#{title}"
-    end
-    return title
   end
 
 
