@@ -7,7 +7,7 @@ A boilerplate is a markdown file you place under the `_boilerplates` folder to g
         path: _posts    # the path to create the new page under.
         timestamp: true  # when true new post/pages will include the date in the filename.
         # a custom slug overrides the timestamp setting
-        slug: '{{ title }}-{{ date }}{{ suffix }}' 
+        slug: '{{ title }}-{{ date }}' 
         # slug is a template for the filename, it cant take the same tags everything else.
     title: {{ boilerplate.title }} # tags like this will be replaced
     layout: post        # everthing else will be copied to the new post.

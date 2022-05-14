@@ -37,11 +37,14 @@ class JekyllPageBoilerplate::Page
     @config = get_config(parsed_file['head']).merge(options)
     @config['suffix'] ||= plate_path[/\.\w+$/]
     @config['name'] ||= plate_path[/.*(?=\.)/] || plate_path
+    @config['basename'] = File.basename(plate_path, '.*')
+    @config['title'] ||= @config['basename']
+
     unless @config['slug'] 
       if @config['timestamp']
-        @config['slug'] = '{{ date }}-{{ title }}{{ suffix }}' 
+        @config['slug'] = '{{ date }}-{{ title }}' 
       else
-        @config['slug'] = '{{ title }}{{ suffix }}' 
+        @config['slug'] = '{{ title }}' 
       end
     end
     @head = get_head(parsed_file['head'])
@@ -54,8 +57,11 @@ class JekyllPageBoilerplate::Page
 
     abort_unless_file_exists(@config['path'])
     
+    # puts @config['slug']
     scan_slug
-    @config['file'] ||= @config['slug'] 
+    @config['file'] = @config['slug']+@config['suffix']
+    # puts @config['file']
+    # puts @config['title'].inspect
 
     scan_template :@body
     scan_template :@head
@@ -86,16 +92,16 @@ class JekyllPageBoilerplate::Page
   end
 
   def scan_slug
-    @config['slug'].scan(TAG_SLUG).flatten.uniq do |tag|
+    @config['slug'].scan(TAG_SLUG).flatten.uniq.each do |tag|
       @config['slug'].gsub! /\{{2}\s{0,}#{tag}\s{0,}\}{2}/, get_tag_value(tag)
     end
+
     @config['slug'].gsub!(/[^0-9A-Za-z\.\-_]/, '-')
     @config['slug'].downcase!
   end
 
   def get_tag_value(key)
     return @config[key].to_s if @config[key]
-    return @config['name'] if key == 'title'
     key = key.split('=')
     return Tag.send(key[0].to_sym, *key[1]&.split(','))
   end

@@ -11,7 +11,7 @@ class JekyllPageBoilerplate::Application < Bales::Application
   option :path, type: String, long_form: '--path', short_form: '-p',
     description: "`<path>/title.md`"
   option :slug, type: String, long_form: '--slug', short_form: '-u',
-    description: "`path/<slug-template>` `{{title}}-{{date}}{{suffix}}`"
+    description: "`path/<slug-template>.md` `{{title}}-{{date}}`"
   option :timestamp, type: TrueClass, long_form: '--timestamp', short_form: '-s',
     description: "`path/<time.now>-title.md`"
   option :suffix, type: String, long_form: '--suffix', short_form: '-x',

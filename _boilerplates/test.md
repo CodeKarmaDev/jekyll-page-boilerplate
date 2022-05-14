@@ -3,7 +3,7 @@
 _boilerplate:
   path: test
   timestamp: false
-  title: title     
+  title: title
   type: testing
   num: 130 
      

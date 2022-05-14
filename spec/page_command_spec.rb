@@ -92,9 +92,9 @@ RSpec.describe JekyllPageBoilerplate::Page do
 
 
   # this is the file_name_template slug
-  context '`boilerplate <page> num=02 --slug "{{ num }}-{{ title }}-{{ date }}{{ suffix }}"`' do
+  context '`boilerplate <page> num=02 --slug "{{ num }}-{{ title }}-{{ date }}"`' do
 
-    subject {%x|exe/boilerplate test num=02 --slug "{{ num }}-{{ title }}-{{ date }}{{ suffix }}"|}
+    subject {%x|exe/boilerplate test num=02 --slug "{{ num }}-{{ title }}-{{ date }}"|}
 
     it 'slug template creates a file' do
       is_expected.not_to match 'Fatal'
