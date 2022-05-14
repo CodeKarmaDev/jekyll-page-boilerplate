@@ -4,7 +4,8 @@ _boilerplate:
   path: test
   timestamp: false
   title: title     
-  type: testing 
+  type: testing
+  num: 130 
      
 layout: post
 author: John Doe
@@ -13,6 +14,7 @@ created: {{ boilerplate.time }}
 random_url: {{ boilerplate.random_url }}
 random_url: {{ boilerplate.random_url=5 }}
 custom: {{ boilerplate.custom }}
+num: {{ boilerplate.num }}
 ---
 
 

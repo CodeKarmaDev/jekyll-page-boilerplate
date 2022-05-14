@@ -94,7 +94,7 @@ class JekyllPageBoilerplate::Page
   end
 
   def get_tag_value(key)
-    return @config[key] if @config[key]
+    return @config[key].to_s if @config[key]
     return @config['name'] if key == 'title'
     key = key.split('=')
     return Tag.send(key[0].to_sym, *key[1]&.split(','))
