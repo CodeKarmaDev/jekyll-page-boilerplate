@@ -45,7 +45,7 @@ class JekyllPageBoilerplate::Tags
   end
 
   def safe key
-    self[key].to_s.downcase.gsub(/[^0-9a-z\.\-]+/, '-')
+    self[key].to_s.downcase.gsub(/[^0-9a-z\.\-\/]+/, '-')
   end
 
   def fetch key, *params

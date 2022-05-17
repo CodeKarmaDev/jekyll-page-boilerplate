@@ -79,11 +79,22 @@ The boilerplate will replace `{{ boilerplate.xxx }}` its own data.
 - `file` the filename of the new post
 - `path` the folder to place the new file in. provided with the `-p` option or in the header.
 - `timestamp` should it include a timestamp in the file name.
-- `random_url` a random url safe base 64 string 
+- `random` a random url safe base 64 string 
 
 you can also provide your own data in the `_boilerplate` header and use it in your document.
 
+## Boilerplate Header
 
+In the header `file, path, slug` will all accept wild cards
+```yaml
+_boilerplate:
+  file: '{{ chapter }}{{ slug }}{{ suffix }}'
+  path: '_chapters/{{ volume }}'
+  slug: '{{ title }}'
+  volume: 1
+  # Default ^^ replace with `bplate <page> volume=54`
+  # the timestamp flag will override the file template.
+```
 
 
 ## Development
