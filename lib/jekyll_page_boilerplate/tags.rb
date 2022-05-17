@@ -33,7 +33,7 @@ class JekyllPageBoilerplate::Tags
     keys.map!(&:to_s)
     keys.each do |k|
       @tags[k].scan(FILL_SCAN).flatten.uniq.each do |tag|
-        @tags[k].gsub! /\{{2}\s{0,}#{tag.to_s}\s{0,}\}{2}/, self[tag]
+        @tags[k].gsub! /\{{2}\s{0,}#{tag.to_s}\s{0,}\}{2}/, self[tag].to_s
       end
     end
     if safe

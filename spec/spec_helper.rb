@@ -15,7 +15,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do 
-    FileUtils.rm Dir.glob('test/*')
+    FileUtils.rm_r Dir.glob('test/*')
   end
   
   config.after(:suite) do 

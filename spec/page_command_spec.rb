@@ -77,7 +77,13 @@ RSpec.describe JekyllPageBoilerplate::Page do
     it {is_expected.to match /test\/.+test-title\.markdown/}
   end
 
-
+  context '`boilerplate <page> -p "test/{{ num }}/"` path option' do
+    subject {%x|exe/boilerplate test -p 'test/{{num}}/'|}
+    it 'can create a sub folder' do
+      is_expected.to match 'test/130/title.md'
+      expect(File.exist?('test/130/title.md')).to be true
+    end
+  end
 
   context '`boilerplate <page> custom=1` command' do
     subject {%x|exe/boilerplate test custom=1|}
