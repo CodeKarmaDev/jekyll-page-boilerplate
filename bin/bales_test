@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bales"
+
+class BalesTest < Bales::Application
+  action do |*args|
+    puts args.inspect
+  end
+end
+
+BalesTest.parse_and_run
+
+

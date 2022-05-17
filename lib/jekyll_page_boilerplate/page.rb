@@ -2,31 +2,26 @@
 require 'yaml'
 require "stringex"
 require 'securerandom'
+require 'fileutils'
 
 class JekyllPageBoilerplate::Page
   
   BOILERPLATES_PATH = '_boilerplates'
-  FILE_DATE_FORMATE = '%Y-%m-%d'
   READ_CONFIG_REGEX = /[\r\n\s]{0,}^_boilerplate:(\s*^[\t ]{1,2}.+$)+[\r\s\n]{0,}(?![^\r\s\n])/
   READ_FILE_REGEX = /^-{3}\s*^(?<head>[\s\S]*)^-{3}\s^(?<body>[\s\S]*)/
   TAGS_REGEX = /\{{2}\s{0,}boilerplate\.([^\{\}\.\s]+)\s{0,}\}{2}/
-  TAG_SLUG = /\{{2}\s{0,}([^\{\}\.\s]+)\s{0,}\}{2}/
 
 
+  attr_reader :tags
 
-  attr_reader :config
-
-  def self.run boilerplate, options
-    page = self.new(boilerplate, options)
+  def self.run boilerplate, *options
+    page = self.new(boilerplate, *options)
     page.create
-    return "Created %s/%s" % [page.config['path'], page.config['file']]
+    return "Created %s/%s" % [page.tags['path'], page.tags['file']]
   end
 
-  def initialize boilerplate, options
-    options.compact!
-    options.transform_keys!(&:to_s)
-    plate_path = get_boilerplate_path(boilerplate).to_s
-
+  def initialize boilerplate, *options, **params
+    plate_path = get_boilerplate_path(boilerplate)
     abort_unless_file_exists( plate_path )
 
     parsed_file = {}
@@ -34,45 +29,45 @@ class JekyllPageBoilerplate::Page
       parsed_file = file.read.match(READ_FILE_REGEX).named_captures
     end
 
-    @config = get_config(parsed_file['head']).merge(options)
-    @config['suffix'] ||= plate_path[/\.\w+$/]
-    @config['name'] ||= plate_path[/.*(?=\.)/] || plate_path
-    @config['basename'] = File.basename(plate_path, '.*')
-    @config['title'] ||= @config['basename']
+    @tags = JekyllPageBoilerplate::Tags.new(
+      defaults(plate_path),
+      get_header_config(parsed_file['head']),
+      *options,
+      params
+    )
+    @tags[:file] = '{{ date }}-{{ slug }}{{ suffix }}' if @tags.timestamp
+    @tags.fill(:slug, :path, :file, safe: true)
 
-    unless @config['slug'] 
-      if @config['timestamp']
-        @config['slug'] = '{{ date }}-{{ title }}' 
-      else
-        @config['slug'] = '{{ title }}' 
-      end
-    end
     @head = get_head(parsed_file['head'])
-    @body = get_body(parsed_file['body'])
+    @body = parsed_file['body']
   end
   
   def create
-    @config['time'] ||= Time.now.to_s
-    @config['date'] ||= Time.now.strftime(FILE_DATE_FORMATE)
-
-    abort_unless_file_exists(@config['path'])
-    
-    # puts @config['slug']
-    scan_slug
-    @config['file'] = @config['slug']+@config['suffix']
-    # puts @config['file']
-    # puts @config['title'].inspect
+    FileUtils.mkdir_p(@tags.path)
 
     scan_template :@body
     scan_template :@head
 
-    create_new_page @config['file']
+    create_new_page
   end
-
+  
   private
   
-  def create_new_page filename
-    new_file_path = File.join( @config['path'], filename )
+  def defaults(plate_path, timestamp: false)
+    basename = File.basename(plate_path, '.*')
+    {
+      suffix: plate_path[/\.\w+$/],
+      name: plate_path[/.*(?=\.)/] || plate_path,
+      basename: basename,
+      title: basename,
+      slug: '{{ title }}',
+      path: '_posts/',
+      file: '{{ slug }}{{ suffix }}',
+    }
+  end
+  
+  def create_new_page
+    new_file_path = File.join( @tags.path, @tags.file )
 
     abort_if_file_exists(new_file_path)
 
@@ -87,43 +82,11 @@ class JekyllPageBoilerplate::Page
 
   def scan_template var
     instance_variable_get(var).scan(TAGS_REGEX).flatten.uniq.each do |tag|
-      instance_variable_get(var).gsub! /\{{2}\s{0,}boilerplate\.#{tag}\s{0,}\}{2}/, get_tag_value(tag)
+      instance_variable_get(var).gsub! /\{{2}\s{0,}boilerplate\.#{tag}\s{0,}\}{2}/, @tags[tag].to_s
     end
   end
 
-  def scan_slug
-    @config['slug'].scan(TAG_SLUG).flatten.uniq.each do |tag|
-      @config['slug'].gsub! /\{{2}\s{0,}#{tag}\s{0,}\}{2}/, get_tag_value(tag)
-    end
-
-    @config['slug'].gsub!(/[^0-9A-Za-z\.\-_]/, '-')
-    @config['slug'].downcase!
-  end
-
-  def get_tag_value(key)
-    return @config[key].to_s if @config[key]
-    key = key.split('=')
-    return Tag.send(key[0].to_sym, *key[1]&.split(','))
-  end
- 
-  class Tag
-    class << self
-      def method_missing *args
-        ''
-      end
-
-      def random_url length = nil
-        length && length = length.to_i
-        SecureRandom.urlsafe_base64(length)
-      end
-    end
-  end
-
-  def get_body markdown
-    return markdown
-  end
-
-  def get_config head
+  def get_header_config head
     return YAML.load(head.match(READ_CONFIG_REGEX).to_s)['_boilerplate']
   end
 
@@ -131,14 +94,9 @@ class JekyllPageBoilerplate::Page
     return head.gsub( READ_CONFIG_REGEX, '')
   end
   
-
   def get_boilerplate_path plate_name
-    return Dir.glob( 
-      "#{File.join(BOILERPLATES_PATH, plate_name)}*" 
-    ).first
+    return Dir.glob( "#{File.join(BOILERPLATES_PATH, plate_name)}*" ).first.to_s
   end
-
-
 
   def abort_if_file_exists(file_path)
     if File.exist?(file_path)

@@ -56,7 +56,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
       is_expected.not_to match /\{{2}\s*boilerplate\.\w+\s*\}{2}/
       is_expected.to match "Type is testing" 
       is_expected.to match "File is title.md" 
-      is_expected.not_to match "boilerplate.random_url"
+      is_expected.not_to match "boilerplate.random"
       is_expected.to match /random_url: [^\s]{3,}/
       is_expected.to match /random_url: [^\s]{9,}/
     end

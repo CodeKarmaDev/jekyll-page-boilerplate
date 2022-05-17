@@ -9,24 +9,36 @@ class JekyllPageBoilerplate::Tags
   end
 
   def initialize *args, **params
-    @values = params.merge(*args).transform_keys(&:to_s).compact
+    @tags = {}
+    add(*args, params)
   end
   
+  def []= key, val
+    @tags[key.to_s] = val
+  end
+
+  def add *args, **params
+    args.map! {|h| h.transform_keys(&:to_s).compact }
+    params.transform_keys!(&:to_s).compact!
+    @tags.merge!(*args, params)
+    self
+  end
+
   def [] key
     key = key.to_s
-    @values[key] ||= fetch(*key.split(/:\s*|\s*,\s*/))
+    @tags[key] ||= fetch(*key.split(/\s*=\s*|\s*,\s*/))
   end
 
   def fill *keys, safe: false
     keys.map!(&:to_s)
     keys.each do |k|
-      @values[k].scan(FILL_SCAN).flatten.uniq.each do |tag|
-        @values[k].gsub! /\{{2}\s{0,}#{tag}\s{0,}\}{2}/, self[tag]
+      @tags[k].scan(FILL_SCAN).flatten.uniq.each do |tag|
+        @tags[k].gsub! /\{{2}\s{0,}#{tag.to_s}\s{0,}\}{2}/, self[tag]
       end
     end
     if safe
       keys.each do |k|
-        @values[k] = safe(k)
+        @tags[k] = safe(k)
       end
     end
     self
@@ -47,15 +59,12 @@ class JekyllPageBoilerplate::Tags
     when 'random'
       SecureRandom.hex(*params.map(&:to_i))
     else
-      nil
+      ''
     end
   end
 
-  def []= key, val
-    @values[key] = val
-  end
 
-  def method_missing name
-    @values[name.to_s]
+  def method_missing key
+    @tags[key.to_s]
   end
 end
