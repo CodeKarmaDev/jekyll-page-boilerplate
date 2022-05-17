@@ -1,5 +1,6 @@
 require "jekyll_page_boilerplate/version"
 require "jekyll_page_boilerplate/msg"
+require "jekyll_page_boilerplate/tags"
 require "jekyll_page_boilerplate/page"
 require "jekyll_page_boilerplate/init"
 require "jekyll_page_boilerplate/list"
