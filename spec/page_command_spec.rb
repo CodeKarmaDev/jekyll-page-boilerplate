@@ -64,7 +64,19 @@ RSpec.describe JekyllPageBoilerplate::Page do
   end
 
 
+  # a non full spec test
+  context 'path does not get cleaned' do
+    subject { JekyllPageBoilerplate::Page.new('test',{
+      title: 'example',
+      path: '_notes/this-_-thing1__.h/{{ date }}/'
+      }).tags.path
+    }
 
+    it {is_expected.to match('_notes/this-_-thing1__.h/')}
+  end
+
+
+  # more feature tests
   context '`boilerplate <page> -T "Test Title" --suffix .markdown --timestamp`' do
     subject { %x|exe/boilerplate test -T "Test Title" --suffix .markdown --timestamp|}
 

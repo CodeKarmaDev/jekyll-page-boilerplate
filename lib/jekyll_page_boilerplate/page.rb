@@ -36,7 +36,8 @@ class JekyllPageBoilerplate::Page
       params
     )
     @tags[:file] = '{{ date }}-{{ slug }}{{ suffix }}' if @tags.timestamp
-    @tags.fill(:slug, :file, :path, safe: true)
+    @tags.fill(:slug, :file, safe: true)
+    @tags.fill(:path, safe: false)
 
     @head = get_head(parsed_file['head'])
     @body = parsed_file['body']
