@@ -14,7 +14,7 @@ A boilerplate is a markdown file you place under the `_boilerplates` folder to g
     author: John Doe
 
 
-`$ boilerplate post -T "Another one about pottery"` would create a new file `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`
+`$ boilerplate post "Another one about pottery"` would create a new file `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`
 
     ---
     title: Another one about pottery

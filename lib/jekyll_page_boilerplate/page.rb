@@ -14,13 +14,13 @@ class JekyllPageBoilerplate::Page
 
   attr_reader :tags
 
-  def self.run boilerplate, *options
-    page = self.new(boilerplate, *options)
+  def self.run boilerplate, custom_args, options
+    page = self.new(boilerplate, custom_args, options)
     page.create
     return "Created "+ File.join(page.tags['path'], page.tags['file'])
   end
 
-  def initialize boilerplate, *options, **params
+  def initialize boilerplate, custom_args, options
     plate_path = get_boilerplate_path(boilerplate)
     abort_unless_file_exists( plate_path )
 
@@ -32,8 +32,8 @@ class JekyllPageBoilerplate::Page
     @tags = JekyllPageBoilerplate::Tags.new(
       defaults(plate_path),
       get_header_config(parsed_file['head']),
-      *options,
-      params
+      options,
+      parse_custom_args(custom_args)
     )
     @tags[:file] = '{{ date }}-{{ slug }}{{ suffix }}' if @tags.timestamp
     @tags.fill(:slug, :file, safe: true)
@@ -87,6 +87,10 @@ class JekyllPageBoilerplate::Page
     end
   end
 
+  def parse_custom_args args
+    Hash[args.map {|x| x.match /(\w+)=['"]{0,1}([^"']+)['"]{0,1}/}.compact.map {|x| x.captures }]
+  end
+
   def get_header_config head
     return YAML.load(head.match(READ_CONFIG_REGEX).to_s)['_boilerplate']
   end
@@ -96,7 +100,7 @@ class JekyllPageBoilerplate::Page
   end
   
   def get_boilerplate_path plate_name
-    return Dir.glob( "#{File.join(BOILERPLATES_PATH, plate_name)}*" ).first.to_s
+    return Dir.glob( "#{File.join(BOILERPLATES_PATH, plate_name.to_s)}*" ).first.to_s
   end
 
   def abort_if_file_exists(file_path)

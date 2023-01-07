@@ -1,62 +1,64 @@
-require "bales"
+require 'thor'
 require 'jekyll_page_boilerplate'
 
-class JekyllPageBoilerplate::Application < Bales::Application
-  version JekyllPageBoilerplate::VERSION
-  description JekyllPageBoilerplate::Msg.description
-  summary JekyllPageBoilerplate::Msg::SUMMARY
-  # `boilerplate <page>`  
-  option :title, type: String, long_form: '--title', short_form: '-T',
-    description: "`path/<title>.md`"
-  option :path, type: String, long_form: '--path', short_form: '-p',
-    description: "`<path>/title.md`"
-  option :slug, type: String, long_form: '--slug', short_form: '-u',
-    description: "`path/<slug-template>.md` `{{title}}-{{date}}`"
-  option :timestamp, type: TrueClass, long_form: '--timestamp', short_form: '-s',
-    description: "`path/<time.now>-title.md`"
-  option :suffix, type: String, long_form: '--suffix', short_form: '-x',
-    description: "`path/title.<md, markdown, txt>`"
 
-  action do |plate, *custom, title: nil, slug: nil, path: nil, timestamp: nil, suffix: nil|
-    custom = Hash[custom.map {|v| v.split('=')}]
-    JekyllPageBoilerplate.page plate, custom.merge({
-      title: title, path: path, slug: slug,
-      suffix: suffix, timestamp: timestamp
-    })
-  end
 
-  # `boilerplate help`  
-  command 'help', parent: Bales::Command::Help
-
-  # `boilerplate init`  
-  command 'init' do
-    summary "Creates an example boilerplate."
-    action do
-      JekyllPageBoilerplate.init
-    end
-  end
+class JekyllPageBoilerplate::Application < Thor
   
-  # `boilerplate list`  
-  command 'list' do
-    summary "List all the boilerplates"
-    action do 
-      JekyllPageBoilerplate.list
-    end
-  end
-  
+  SHARED_OPTIONS = {
+    title: { type: :string, aliases: [:t], desc: "`path/<title>.md` `'Foo Bar' > foo-bar.md`" },
+    path: { type: :string, aliases: [:p], desc: "`<path>/title.md`" },
+    slug: { type: :string, aliases: [:u], desc: "`path/<slug-template>.md` `{{title}}-{{date}}`" },
+    timestamp: { type: :boolean, aliases: [:s], desc: "`path/<time.now>-title.md`" },
+    suffix: { type: :string, aliases: [:x], desc: "`path/title.<md, markdown, txt>`" }
+    # TODO: rename suffix to ext ^^^
+  }
 
-  def self.run(*args, **opts)
-    begin
-      super
-    rescue => e
-      JekyllPageBoilerplate.readme 
-    end
+  desc "version", "Print the current version."
+  def version
+    puts JekyllPageBoilerplate::VERSION.to_s
   end
 
+  desc "init", "Creates an example boilerplate."
+  def init
+    puts JekyllPageBoilerplate.init
+  end
+
+  desc "list", "List all the boilerplates."
+  def list
+    JekyllPageBoilerplate.list
+  end
+
+  desc "create BOILERPLATE TITLE [CUSTOM] (--options)", "Generates a new file from a boilerplate."
+  SHARED_OPTIONS.each do |name, opt_args|
+    option name, **opt_args
+  end
+  def create plate, title = nil, *args
+    _options = options.dup.transform_values(&:dup) || {}
+    _options[:title] ||= title if title
+    JekyllPageBoilerplate.page plate, args, _options
+  end
+
+  desc "readme", "Print out the readme"
+  def readme
+    JekyllPageBoilerplate.readme
+  end
+
+  Dir['_boilerplates/*'].each do |file|
+    cmd = File.basename(file, '.*').to_sym
+    desc "#{cmd} TITLE [CUSTOM] (--options)", "Alias for `bplate create #{cmd} ...`"
+    SHARED_OPTIONS.each do |name, opt_args|
+      option name, **opt_args
+    end
+    define_method cmd do |title = nil, *args|
+      _options = options.dup.transform_values(&:dup) || {}
+      _options[:title] ||= title if title
+      JekyllPageBoilerplate.page cmd, args, _options
+    end
+  end
+
+  default_task :readme
 end
 
-JekyllPageBoilerplate::Application.parse_and_run
+JekyllPageBoilerplate::Application.start(ARGV)
 
-  
-  
-  

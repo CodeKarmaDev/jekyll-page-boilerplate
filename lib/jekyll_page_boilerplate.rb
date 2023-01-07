@@ -25,9 +25,9 @@ module JekyllPageBoilerplate
     Msg.file 'description.md'
   end
 
-  def self.page boilerplate_name, options
+  def self.page boilerplate_name, args, options
     Msg.try_and_report do
-      Page.run(boilerplate_name, options)
+      Page.run(boilerplate_name, args, options)
     end
   end  
 

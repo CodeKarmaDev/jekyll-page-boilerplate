@@ -66,7 +66,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
 
   # a non full spec test
   context 'path does not get cleaned' do
-    subject { JekyllPageBoilerplate::Page.new('test',{
+    subject { JekyllPageBoilerplate::Page.new('test',[],{
       title: 'example',
       path: '_notes/this-_-thing1__.h/{{ date }}/'
       }).tags.path
@@ -77,13 +77,13 @@ RSpec.describe JekyllPageBoilerplate::Page do
 
 
   # more feature tests
-  context '`boilerplate <page> -T "Test Title" --suffix .markdown --timestamp`' do
-    subject { %x|exe/boilerplate test -T "Test Title" --suffix .markdown --timestamp|}
+  context '`boilerplate <page> -t "Test Title" --suffix .markdown --timestamp`' do
+    subject { %x|exe/boilerplate test -t "Test Title" --suffix .markdown --timestamp|}
 
     it 'handles file options' do
       is_expected.not_to match 'Fatal'
       expect(Dir["test/*"]).not_to be_empty
-      expect(Dir["test/*test-title.markdown"]).not_to be_empty
+      expect(Dir["test/*-title.markdown"]).not_to be_empty
     end
     
     it {is_expected.to match /test\/.+test-title\.markdown/}
@@ -98,7 +98,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
   end
 
   context '`boilerplate <page> custom=1` command' do
-    subject {%x|exe/boilerplate test custom=1|}
+    subject {%x|exe/boilerplate test title custom=1|}
      
     it 'handles custom params' do
       is_expected.not_to match 'Fatal'
@@ -112,7 +112,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
   # this is the file_name_template slug
   context '`boilerplate <page> num=02 --slug "{{ num }}-{{ title }}-{{ date }}"`' do
 
-    subject {%x|exe/boilerplate test num=02 --slug "{{ num }}-{{ title }}-{{ date }}"|}
+    subject {%x|exe/boilerplate test "title" num=02 --slug "{{ num }}-{{ title }}-{{ date }}"|}
 
     it 'slug template creates a file' do
       is_expected.not_to match 'Fatal'
