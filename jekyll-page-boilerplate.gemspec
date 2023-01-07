@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency('bales', '~> 0.1.3')
+  spec.add_runtime_dependency('thor', '~> 1.2', '>= 1.2.1')
   spec.add_runtime_dependency("stringex", '~> 2.8', '>= 2.8.5')
 
 end
