@@ -27,7 +27,11 @@ module JekyllPageBoilerplate::Msg
     begin
       self.info block.call
     rescue => e
-      self.error fatal: e.message
+      if e.kind_of?(JekyllPageBoilerplate::Error)
+        self.error fatal: e.message
+      else
+        self.error fatal: e.message, full: e.full_message
+      end
     end
   end
 

@@ -22,7 +22,7 @@ RSpec.describe JekyllPageBoilerplate do
   context '`boilerplate init` command' do
     subject {%x|exe/boilerplate init|}
 
-    it {is_expected.not_to match /Fatal/}
+    it {is_expected.not_to match /Fatal|Error/}
     
     it {is_expected.to match '_boilerplates/example.md'}
 

@@ -105,13 +105,13 @@ class JekyllPageBoilerplate::Page
 
   def abort_if_file_exists(file_path)
     if File.exist?(file_path)
-      raise "#{file_path} already exists!"
+      raise JekyllPageBoilerplate::Error.new, "#{file_path} already exists!"
     end
   end
 
   def abort_unless_file_exists(file_path)
     unless File.exist?(file_path)
-      raise "The file `#{file_path}` does not exist!"
+      raise JekyllPageBoilerplate::Error.new, "The file `#{file_path}` does not exist!"
     end
   end
 

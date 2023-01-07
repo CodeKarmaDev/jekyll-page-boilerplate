@@ -9,9 +9,9 @@ RSpec.describe JekyllPageBoilerplate::Page do
     subject {%x|exe/boilerplate test|}
   
     it('creates a file') do
-      is_expected.not_to match /Fatal/
+      is_expected.not_to match /Fatal|Error/
       expect(File.exist?('test/title.md')).to eq(true)
-      expect(%x|exe/boilerplate test|).to match /Fatal/
+      expect(%x|exe/boilerplate test|).to match /Fatal|Error/
     end
 
     it {is_expected.to match 'test/title.md'}
@@ -81,7 +81,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
     subject { %x|exe/boilerplate test -t "Test Title" --suffix .markdown --timestamp|}
 
     it 'handles file options' do
-      is_expected.not_to match 'Fatal'
+      is_expected.not_to match /Fatal|Error/
       expect(Dir["test/*"]).not_to be_empty
       expect(Dir["test/*-title.markdown"]).not_to be_empty
     end
@@ -101,7 +101,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
     subject {%x|exe/boilerplate test title custom=1|}
      
     it 'handles custom params' do
-      is_expected.not_to match 'Fatal'
+      is_expected.not_to match /Fatal|Error/
       expect(File.exist?('test/title.md')).to eq(true)
       expect(file_content).to match 'custom: 1'
       expect(file_content).not_to match 'boilerplate.custom'
@@ -115,7 +115,7 @@ RSpec.describe JekyllPageBoilerplate::Page do
     subject {%x|exe/boilerplate test "title" num=02 --slug "{{ num }}-{{ title }}-{{ date }}"|}
 
     it 'slug template creates a file' do
-      is_expected.not_to match 'Fatal'
+      is_expected.not_to match /Fatal|Error/
       is_expected.to match 'Created'
       expect(Dir.glob('test/02-title-*.md')).not_to be_empty
     end
