@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "jekyll_page_boilerplate"
 
+require 'pry'
 require 'fileutils'
 
 RSpec.configure do |config|
