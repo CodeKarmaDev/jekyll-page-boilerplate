@@ -49,9 +49,9 @@ A Jekyll Boilerplate Example
 
 ```
 
-Run `$ boilerplate BOILERPLATE_NAME -t 'MY POST TITLE'`
+Run `$ boilerplate BOILERPLATE_NAME 'MY POST TITLE'`
 
-ie `$ boilerplate post -t 'Another one about pottery'`
+ie `$ boilerplate post 'Another one about pottery'`
 
 
 This will create a new file under `_posts/yyyy-mm-dd-another-one-about-pottery.markdown`
